@@ -46,7 +46,29 @@ Berdasarkan Gambar 2. di atas, diketahui bahwa penulis dengan nama Agatha Christ
 ## Data Preparation
 Secara umum sebelum memasuki tahapan membuat model sistem rekomendasi, dilakukan persiapan data sebagai berikut:
 - Menghapus kolom [Image-URL-S', 'Image-URL-M', 'Image-URL-L]  karena tidak diperlukan pada tahapan modeling.
+  
+  Tabel 1. Dataframe books
+  
+|   |       ISBN |                                        Book-Title |          Book-Author | Year-Of-Publication |                  Publisher |
+|--:|-----------:|--------------------------------------------------:|---------------------:|--------------------:|---------------------------:|
+| 0 | 0195153448 |                               Classical Mythology |   Mark P. O. Morford |                2002 |    Oxford University Press |
+| 1 | 0002005018 |                                      Clara Callan | Richard Bruce Wright |                2001 |      HarperFlamingo Canada |
+| 2 | 0060973129 |                              Decision in Normandy |         Carlo D'Este |                1991 |            HarperPerennial |
+| 3 | 0374157065 | Flu: The Story of the Great Influenza Pandemic... |     Gina Bari Kolata |                1999 |       Farrar Straus Giroux |
+| 4 | 0393045218 |                            The Mummies of Urumchi |      E. J. W. Barber |                1999 | W. W. Norton &amp; Company |
+
 - Menggabungkan dataframe file books.csv dan ratings.csv berdasarkan ISBN.
+
+  Tabel 2. Dataframe books setelah books.csv dan ratings.csv di merge
+  
+|   | User-ID |       ISBN | Book-Rating |                                        Book-Title |     Book-Author | Year-Of-Publication |                  Publisher |
+|--:|--------:|-----------:|------------:|--------------------------------------------------:|----------------:|--------------------:|---------------------------:|
+| 0 |  276725 | 034545104X |           0 |                              Flesh Tones: A Novel |      M. J. Rose |                2002 |           Ballantine Books |
+| 1 |  276726 | 0155061224 |           5 |                                  Rites of Passage |      Judith Rae |                2001 |                     Heinle |
+| 2 |  276727 | 0446520802 |           0 |                                      The Notebook | Nicholas Sparks |                1996 |               Warner Books |
+| 3 |  276729 | 052165615X |           3 |                                    Help!: Level 1 |   Philip Prowse |                1999 | Cambridge University Press |
+| 4 |  276729 | 0521795028 |           6 | The Amsterdam Connection : Level 4 (Cambridge ... |     Sue Leather |                2001 | Cambridge University Press |
+
 - Memeriksa apakah ada missing values dengan mengecek setiap sel dalam dataset yang memiliki nilai kosong (null). Karena ada data dengan nilai koson maka data tersebut dihapus.
   
 **Persiapan data untuk model sistem rekomendasi Content Based**
@@ -56,9 +78,16 @@ Secara umum sebelum memasuki tahapan membuat model sistem rekomendasi, dilakukan
 **Persiapan data untuk model sistem rekomendasi Collaborative Filtering**
 - Mengumpulkan User-ID yang telah memberikan rating buku minimal sebanyak 200 buku
 - Mengumpulkan Book-Title yang telah menerima rating minimal sebanyak 50 rating
+
 Keduanya dilakukan agar kita memiliki pembaca berpengalaman serta daftar buku dengan jumlah peringkat yang cukup untuk setiap buku.
 
 ## Modeling and Result
+### Content Based 
+Pada tahap ini, akan dibuat sebuah model dengan menggunakan teknik Content-Based Filtering. Content-Based Filtering adalah pendekatan dalam sistem rekomendasi yang memanfaatkan informasi atau "konten" dari item atau pengguna untuk memberikan rekomendasi. Ide dasarnya adalah mencocokkan preferensi pengguna dengan karakteristik atau konten dari item yang telah dilihat atau disukai pengguna sebelumnya. Sebagai contoh, jika seorang pengguna menyukai atau telah membeli buku berjudul "Introduction to Machine Learning," dan buku tersebut memiliki fitur seperti nama penulis "Alex Smola," sistem akan mencari buku-buku lain dengan fitur serupa dan memberikan rekomendasi top-N kepada pengguna.
+- Kelebihan: Personalisasi yang baik karena didasarkan pada preferensi unik dari setiap pengguna, tidak bergantung pada data pengguna lain, dan latar belakang yang lebih baik mengenai alasan di balik suatu rekomendasi karena didasarkan pada fitur atau konten spesifik dari item.
+- Kelebihan: Jika data pengguna tidak lengkap atau tidak mencerminkan preferensi yang sebenarnya, sistem ini mungkin kesulitan memberikan rekomendasi yang akurat, ini tentunya juga mengakibatkan keterbatasan dalam menyesuaikan preferensi dari pengguna yang berubah-ubah.
+
+Untuk menghitung tingkat kemiripan antara judul buku, digunakan teknik cosine similarity. Metode ini digunakan untuk mengukur kemiripan antara dua vektor dalam ruang berdimensi tinggi. Cosine similarity mengukur sudut kosinus antara dua vektor, dan semakin kecil sudutnya, semakin tinggi kemiripan antara vektor-vektor tersebut.
 
 ## Evaluation
 
