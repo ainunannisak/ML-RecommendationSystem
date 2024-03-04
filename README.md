@@ -31,13 +31,13 @@ Dataset books.csv memiliki jumlah total data unik sebagai berikut:
 
 Berdasarkan dataframe books, jumlah judul buku dalam dataset adalah 242.135, sedangkan jumlah ISBN buku adalah 271.357. Hal ini menunjukkan adanya beberapa buku yang tidak memiliki nomor ISBN karena seharusnya setiap buku memiliki ISBN yang unik. Dalam hal ini, dataset akan difilter untuk memastikan setiap buku memiliki ISBN yang unik untuk modeling sistem rekomendasi Content Based.
 
-Grafik Penerbit dengan buku terbanyak
+**Grafik Penerbit dengan buku terbanyak**
 ![Penerbit dengan buku terbanyak](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/1835df6b-7366-4603-9aa2-89629c8ca848)
 
-Gambar 1.  Penerbit dengan buku terbanyak
+Gambar 1. Penerbit dengan buku terbanyak
 Berdasarkan Gambar 1. di atas, diketahui bahwa penerbit Harlequin merilis buku paling banyak, dengan total lebih dari 7000 buku.
 
-Grafik Penulis dengan buku terbanyak
+**Grafik Penulis dengan buku terbanyak**
 ![Penulis dengan buku terbanyak](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/dacb2898-3501-4793-8bd4-ec87cc07778c)
 
 Gambar 2.  Penulis dengan buku terbanyak
@@ -88,6 +88,21 @@ Pada tahap ini, akan dibuat sebuah model dengan menggunakan teknik Content-Based
 - Kelebihan: Jika data pengguna tidak lengkap atau tidak mencerminkan preferensi yang sebenarnya, sistem ini mungkin kesulitan memberikan rekomendasi yang akurat, ini tentunya juga mengakibatkan keterbatasan dalam menyesuaikan preferensi dari pengguna yang berubah-ubah.
 
 Untuk menghitung tingkat kemiripan antara judul buku, digunakan teknik cosine similarity. Metode ini digunakan untuk mengukur kemiripan antara dua vektor dalam ruang berdimensi tinggi. Cosine similarity mengukur sudut kosinus antara dua vektor, dan semakin kecil sudutnya, semakin tinggi kemiripan antara vektor-vektor tersebut.
+
+Pada model Content Based Filtering ini akan memberikan rekomendasi berdasarkan penulis buku (Author)
+Hasil rekomendasi 5 teratas pada judul buku yang dimasukkan sebagai berikut
+```
+book_title_to_recommend = "Mog's Christmas"
+```
+Tabel 3. Hasil rekomendasi berdasarkan penulis buku
+
+|   |                                           Recommended Book |       Author |
+|--:|-----------------------------------------------------------:|-------------:|
+| 0 | Paddington in the Kitchen                                  | Michael Bond |
+| 1 | Paddington and the Marmalade Maze (Paddington First Books) | Michael Bond |
+| 2 | Paddington at the Tower (A Paddington Picture Book)        | Michael Bond |
+| 3 | The Adventures of Paddington                               | Michael Bond |
+| 4 | PADDINGTON GOES TO SALES L/CUB (Collins Colour Cubs)       | Michael Bond |
 
 ## Evaluation
 
