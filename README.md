@@ -42,13 +42,29 @@ Berdasarkan dataframe books, jumlah judul buku dalam dataset adalah 242.135, sed
 ![Penerbit dengan buku terbanyak](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/1835df6b-7366-4603-9aa2-89629c8ca848)
 
 Gambar 1. Penerbit dengan buku terbanyak
+
 Berdasarkan Gambar 1. di atas, diketahui bahwa penerbit Harlequin merilis buku paling banyak, dengan total lebih dari 7000 buku.
 
 **Grafik Penulis dengan buku terbanyak**
 ![Penulis dengan buku terbanyak](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/dacb2898-3501-4793-8bd4-ec87cc07778c)
 
 Gambar 2.  Penulis dengan buku terbanyak
+
 Berdasarkan Gambar 2. di atas, diketahui bahwa penulis dengan nama Agatha Christie menulis buku paling banyak, dengan total lebih dari 600 buku. Dari informasi ini, juga terlihat bahwa dataset ini mencakup beberapa penulis yang telah menulis lebih dari satu judul buku.
+
+**Grafik Penulis dengan rata-rata rating tertinggi**
+![image](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/3b0af378-18a6-40ac-b04a-b6d55638507f)
+
+Gambar 3. Penulis dengan rata-rata rating tertinggi
+
+Dari plot diatas bisa dilihat bahwa terdapat perbedaan yang cukup besar dari rata-rata rating penulis.
+
+**Grafik Kota dan Negara dengan user terbanyak**
+![image](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/c57ab7fe-25ff-4dbe-bf6c-2287aebcd26b)
+
+Gambar 4. Kota dan Negara dengan user terbanyak
+
+Dapat dilihat pada plot diatas bahwa negara dengan user terbanyak adalah pada kota London di United Kingdom dan diikuti oleh kota Toronto di Canada.
 
 ## Data Preparation
 Secara umum sebelum memasuki tahapan membuat model sistem rekomendasi, dilakukan persiapan data sebagai berikut:
@@ -113,8 +129,12 @@ Tabel 3. Hasil rekomendasi Content Based berdasarkan penulis buku
 
 ### Collaborative Filtering
 Collaborative Filtering adalah salah satu metode dalam sistem rekomendasi yang mengandalkan informasi dari pengguna lain untuk memberikan rekomendasi pada suatu pengguna. Metode ini memanfaatkan preferensi atau perilaku pengguna untuk menentukan rekomendasi bagi pengguna lain yang memiliki kesamaan atau kesamaan selera. Terdapat dua jenis utama dari Collaborative Filtering, yaitu User-Based Collaborative Filtering dan Item-Based Collaborative Filtering.
+- Kelebihan: Memberikan rekomendasi yang sangat personal karena berdasarkan pada perilaku dan preferensi pengguna sesungguhnya, tidak perlu informasi mengenai item, dan mudah diimplementasikan karena tidak memerlukan pemodelan yang kompleks.
+- Kekurangan: Cenderung tidak efektif ketika data yang tersedia sangat jarang (sparse) dan sulit memberikan rekomendasi untuk pengguna baru (cold start) atau item baru yang belum memiliki sejarah interaksi. 
 
 Dalam proses training model menghitung skor kesesuaian antara pengguna dan judul buku menggunakan teknik embedding. Selanjutnya, dilakukan operasi perkalian dot product antara embedding pengguna dan judul buku. Selain itu, ditambahkan bias untuk setiap pengguna dan judul buku. Skor kesesuaian diatur dalam skala [0,1] dengan fungsi aktivasi sigmoid. Model dibuat dengan kelas RecommenderNet menggunakan kelas Model dari Keras. Model akan menggunakan Binary Crossentropy untuk menghitung fungsi loss, Adam (Adaptive Moment Estimation) sebagai Optimalizer, dan Root Mean Squared Error (RMSE) sebagai metrik evaluasi.
+
+RecommenderNet adalah model berbasis deep learning, yang  menggunakan arsitektur neural network dengan beberapa lapisan (layer) untuk memahami dan memodelkan pola kompleks dalam data pengguna. Model ini mampu mengatasi representasi yang kompleks dari data pengguna dan item melalui teknik embedding dan baik digunakan pada data dengan skala besar.
 
 Berikut hasil rekomendasi 10 buku teratas dengan model Collaborative Filtering
 
@@ -142,19 +162,22 @@ Buku yang direkomendasikan pada model ini berdasarkan kesamaan/kemiripan dari pe
 
 ![image](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/8acf73ab-91cf-453f-ba5c-9805e9d8c262)
 
-Gambar 3. Perhitungan Precision Model Content Based
+Gambar 5. Perhitungan Precision Model Content Based
 
-Karena seluruh item (5 item) yang direkomendasikan relevan, maka nilai presisinya adalah 100%.
+Karena seluruh item (5 item) yang direkomendasikan relevan, maka nilai presisinya adalah 100%. Hal ini mencerminkan keberhasilan model Content Based dalam memberikan rekomendasi buku berdasarkan kesamaan penulis (author), sesuai dengan tujuan untuk meningkatkan pengalaman pembaca berdasarkan loyalitas terhadap penulis favorit dan penemuan karya baru.
 
 ### Collaborative Filtering Evaluation
 Model Collaborative Filtering dievaluasi menggunakan metrik Root Mean Square Error (RMSE). RMSE digunakan untuk mengevaluasi sejauh mana perbedaan antara rating sebenarnya yang diberikan oleh pengguna dan rating yang diprediksi oleh sistem rekomendasi.
 
 ![image](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/6825ab72-391b-49a1-9596-5071dc9440a1)
 
-Gambar 4. Metrik RMSE Training dan Validation
+Gambar 6. Metrik RMSE Training dan Validation
 
-Berdasarkan Gambar 4. diatas dapat dilihat bahwa model mencapai 100 epochs. Melihat plot metrik model menunjukkan nilai MSE yang relatif kecil. Proses ini menghasilkan nilai kesalahan akhir sebesar 0.3232, dengan data validasi menunjukkan kesalahan sebesar 0.3388. Angka-angka ini menunjukkan hasil yang baik untuk sistem rekomendasi yang dibangun. Semakin rendah nilai RMSE, semakin baik kemampuan model dalam memprediksi preferensi pengguna, sehingga meningkatkan akurasi hasil rekomendasi.
+Berdasarkan Gambar 6. diatas dapat dilihat bahwa model mencapai 100 epochs. Melihat plot metrik model menunjukkan nilai MSE yang relatif kecil. Proses ini menghasilkan nilai kesalahan akhir sebesar 0.3232, dengan data validasi menunjukkan kesalahan sebesar 0.3388. Angka-angka ini menunjukkan hasil yang baik untuk sistem rekomendasi yang dibangun. Semakin rendah nilai RMSE, semakin baik kemampuan model dalam memprediksi preferensi pengguna, sehingga meningkatkan akurasi hasil rekomendasi.
 
+**Kesimpulan**
+
+Hasil evaluasi metrik kedua model menunjukkan bahwa model rekomendasi yang dibangun berhasil mencapai tujuandan memberikan rekomendasi buku yang sesuai kepada pengguna. Dengan demikian, project ini mampu meningkatkan pengalaman pembaca dan mencapai tujuan bisnis yang diinginkan. Evaluasi metrik memberikan keyakinan bahwa model rekomendasi dapat diandalkan dan efektif dalam mendukung pengguna dalam memilih buku yang sesuai dengan minat dan preferensi mereka.
 
 ## References
 
