@@ -87,14 +87,14 @@ Pada tahap ini, akan dibuat sebuah model dengan menggunakan teknik Content-Based
 - Kelebihan: Personalisasi yang baik karena didasarkan pada preferensi unik dari setiap pengguna, tidak bergantung pada data pengguna lain, dan latar belakang yang lebih baik mengenai alasan di balik suatu rekomendasi karena didasarkan pada fitur atau konten spesifik dari item.
 - Kelebihan: Jika data pengguna tidak lengkap atau tidak mencerminkan preferensi yang sebenarnya, sistem ini mungkin kesulitan memberikan rekomendasi yang akurat, ini tentunya juga mengakibatkan keterbatasan dalam menyesuaikan preferensi dari pengguna yang berubah-ubah.
 
-Untuk menghitung tingkat kemiripan antara judul buku, digunakan teknik cosine similarity. Metode ini digunakan untuk mengukur kemiripan antara dua vektor dalam ruang berdimensi tinggi. Cosine similarity mengukur sudut kosinus antara dua vektor, dan semakin kecil sudutnya, semakin tinggi kemiripan antara vektor-vektor tersebut.
+Untuk menghitung tingkat kemiripan antara judul buku, digunakan teknik cosine similarity. Metode ini digunakan untuk mengukur kemiripan antara dua vektor dalam ruang berdimensi tinggi. Cosine similarity mengukur sudut kosinus antara dua vektor, dan semakin kecil sudutnya, semakin tinggi kemiripan antara vektor-vektor tersebut [[3]](https://journals.usm.ac.id/index.php/transformatika/article/view/1613).
 
 Pada model Content Based Filtering ini akan memberikan rekomendasi berdasarkan penulis buku (Author)
 Hasil rekomendasi 5 teratas pada judul buku yang dimasukkan sebagai berikut
 ```
 book_title_to_recommend = "Mog's Christmas"
 ```
-Tabel 3. Hasil rekomendasi berdasarkan penulis buku
+Tabel 3. Hasil rekomendasi Content Based berdasarkan penulis buku 
 
 |   |                                           Recommended Book |       Author |
 |--:|-----------------------------------------------------------:|-------------:|
@@ -104,7 +104,50 @@ Tabel 3. Hasil rekomendasi berdasarkan penulis buku
 | 3 | The Adventures of Paddington                               | Michael Bond |
 | 4 | PADDINGTON GOES TO SALES L/CUB (Collins Colour Cubs)       | Michael Bond |
 
+### Collaborative Filtering
+Collaborative Filtering adalah salah satu metode dalam sistem rekomendasi yang mengandalkan informasi dari pengguna lain untuk memberikan rekomendasi pada suatu pengguna. Metode ini memanfaatkan preferensi atau perilaku pengguna untuk menentukan rekomendasi bagi pengguna lain yang memiliki kesamaan atau kesamaan selera. Terdapat dua jenis utama dari Collaborative Filtering, yaitu User-Based Collaborative Filtering dan Item-Based Collaborative Filtering.
+
+Dalam proses training model menghitung skor kesesuaian antara pengguna dan judul buku menggunakan teknik embedding. Selanjutnya, dilakukan operasi perkalian dot product antara embedding pengguna dan judul buku. Selain itu, ditambahkan bias untuk setiap pengguna dan judul buku. Skor kesesuaian diatur dalam skala [0,1] dengan fungsi aktivasi sigmoid. Model dibuat dengan kelas RecommenderNet menggunakan kelas Model dari Keras. Model akan menggunakan Binary Crossentropy untuk menghitung fungsi loss, Adam (Adaptive Moment Estimation) sebagai Optimalizer, dan Root Mean Squared Error (RMSE) sebagai metrik evaluasi.
+
+Berikut hasil rekomendasi 10 buku teratas dengan model Collaborative Filtering
+
+```
+Rekomendasi untuk User ID: 209516
+```
+
+Tabel 4. Hasil rekomendasi Collaborative Filtering
+|   |                                        Book Title |             Book Author |
+|--:|--------------------------------------------------:|------------------------:|
+| 0 | Stupid White Men ...and Other Sorry Excuses fo... |           Michael Moore |
+| 1 |                                   Brave New World |           Aldous Huxley |
+| 2 |                                           Riptide |         Mickey Friedman |
+| 3 |                          I Know This Much Is True |              Wally Lamb |
+| 4 | The Alchemist: A Fable About Following Your Dream |            Paulo Coelho |
+| 5 |                  Charlotte's Web (Trophy Newbery) |             E. B. White |
+| 6 |                                 The Secret Garden | Frances Hodgson Burnett |
+| 7 |                                          Vanished |     Mary McGarry Morris |
+| 8 |           The Girls' Guide to Hunting and Fishing |            Melissa Bank |
+| 9 |                                       About a Boy |             Nick Hornby |
+
 ## Evaluation
+### Content Based Evaluation
+Buku yang direkomendasikan pada model ini berdasarkan kesamaan/kemiripan dari penulis buku (Author), dengan ini dilakukan perhitungan dengan Precision. Presisi (Precision) dapat dihitung dengan rumus berikut:
+
+![image](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/8acf73ab-91cf-453f-ba5c-9805e9d8c262)
+
+Gambar 3. Perhitungan Precision Model Content Based
+
+Karena seluruh item (5 item) yang direkomendasikan relevan, maka nilai presisinya adalah 100%.
+
+### Collaborative Filtering Evaluation
+Model Collaborative Filtering dievaluasi menggunakan metrik Root Mean Square Error (RMSE). RMSE digunakan untuk mengevaluasi sejauh mana perbedaan antara rating sebenarnya yang diberikan oleh pengguna dan rating yang diprediksi oleh sistem rekomendasi.
+
+![image](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/6825ab72-391b-49a1-9596-5071dc9440a1)
+
+Gambar 4. Metrik RMSE Training dan Validation
+
+Berdasarka Gambar 4. diatas dapat dilihat bahwa model mencapai 100 epochs. Melihat plot metrik model menunjukkan nilai MSE yang relatif kecil. Proses ini menghasilkan nilai kesalahan akhir sebesar 0.3232, dengan data validasi menunjukkan kesalahan sebesar 0.3388. Angka-angka ini menunjukkan hasil yang baik untuk sistem rekomendasi yang dibangun. Semakin rendah nilai RMSE, semakin baik kemampuan model dalam memprediksi preferensi pengguna, sehingga meningkatkan akurasi hasil rekomendasi.
+
 
 ## References
 
@@ -112,5 +155,6 @@ Tabel 3. Hasil rekomendasi berdasarkan penulis buku
 
 [2] P. Devika, K. Jyothisree, P. Rahul, S. Arjun and J. Narayanan, "Book Recommendation System," 2021 12th International Conference on Computing Communication and Networking Technologies (ICCCNT), Kharagpur, India, 2021, pp. 1-5, doi: 10.1109/ICCCNT51525.2021.9579647. 
 
+[3] D. Kurniadi, S. F. C. Haviana, dan A. Novianto, "Implementasi Algoritma Cosine Similarity pada sistem arsip dokumen di Universitas Islam Sultan Agung," Jurnal Transformatika, vol. 17, no. 2, pp. 124-133, Jan. 2020. [Online]. Available: https://journals.usm.ac.id/index.php/transformatika/article/view/1613. Diakses pada: 05 Mar. 2024. doi: 10.26623/transformatika.v17i2.1613.
 
 
