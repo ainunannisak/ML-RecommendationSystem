@@ -5,14 +5,21 @@ Perpustakaan digital dan toko buku online semakin banyak dan mudah untuk diakses
 
 Saat ini, berbagai situs perpustakaan digital dan toko buku online bersaing satu sama lain dengan berbagai cara. Salah satu metode paling efektif untuk meningkatkan keuntungan dan mempertahankan pelanggan adalah sistem rekomendasi, yang dapat merekomendasikan buku yang menarik bagi pelanggan. Jadi, project ini membantu orang memilih buku yang tepat sesuai minat mereka dan mendorong mereka untuk membaca lebih banyak.  Dengan membangun sistem rekomendasi buku, dimaksudkan untuk mendukung orang-orang yang memiliki minat dalam membaca dan memengaruhi mereka yang menanamkan kebiasaan membaca [[2]](https://ieeexplore.ieee.org/abstract/document/9579647). 
 
+Sistem rekomendasi buku di lingkungan perpustakaan digital dan toko buku online diharapkan memberikan kontribusi signifikan:
+- Dengan memberikan rekomendasi yang lebih akurat dan personal, pelanggan cenderung melakukan pembelian berdasarkan minat mereka, meningkatkan konversi penjualan.
+- Menyediakan pengalaman belanja yang menyenangkan karena sesuai dengan preferensi pembaca dapat membantu menarik dan mempertahankan pelanggan.
+- Dengan memberikan rekomendasi yang relevan dan berkualitas, perusahaan dapat membangun loyalitas pelanggan terhadap merek perusahaan.
+
+Dengan demikian, implementasi sistem rekomendasi pada proyek ini melibatkan serangkaian langkah mulai dari pengumpulan data hingga evaluasi metrik, untuk bisa diaplikasikan pada pengoptimalan model dan responsif terhadap kebutuhan pengguna.
+
 ## Business Understanding
 ### Problem Statement
 1. Bagaimana memberikan rekomendasi buku berdasarkan penulis buku (author)?
 2. Bagaimana memberikan rekomendasi buku berdasarkan data kolaboratif dari pengguna lain dengan preferensi yang serupa?
 
 ### Goals
-1. Membuat sistem yang mampu merekomendasikan buku berdasarkan kemiripan judul dan penulis bukunya.
-2. Membuat sistem yang mampu merekomendasikan buku berdasarkan data kolaboratif dari pengguna lain dengan preferensi yang serupa
+1. Membuat sistem yang mampu merekomendasikan buku berdasarkan kesamaan penulis buku untuk meningkatkan pengalaman pembaca berdasarkan loyalitas terhadap penulis favorit dan penemuan karya lainnya.
+2. Membuat sistem yang mampu merekomendasikan buku berdasarkan data kolaboratif dari pengguna lain dengan preferensi yang serupa.
 
 ## Data Understanding
 Dataset yang digunakan pada project ini berasal dari Kaggle oleh [Möbius](https://www.kaggle.com/arashnic) yang dapat diunduh pada tautan berikut [Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset).
@@ -29,7 +36,7 @@ Dataset books.csv memiliki jumlah total data unik sebagai berikut:
 - Jumlah Year-Of-Publication: 202
 - Jumlah Publisher: 16808
 
-Berdasarkan dataframe books, jumlah judul buku dalam dataset adalah 242.135, sedangkan jumlah ISBN buku adalah 271.357. Hal ini menunjukkan adanya beberapa buku yang tidak memiliki nomor ISBN karena seharusnya setiap buku memiliki ISBN yang unik. Dalam hal ini, dataset akan difilter untuk memastikan setiap buku memiliki ISBN yang unik untuk modeling sistem rekomendasi Content Based.
+Berdasarkan dataframe books, jumlah judul buku dalam dataset adalah 242.135, sedangkan jumlah ISBN buku adalah 271.357. Hal ini menunjukkan adanya beberapa buku yang tidak memiliki nomor ISBN karena seharusnya setiap buku memiliki ISBN yang unik. Dalam hal ini, dataset akan difilter untuk memastikan setiap buku memiliki ISBN yang unik untuk modeling sistem rekomendasi.
 
 **Grafik Penerbit dengan buku terbanyak**
 ![Penerbit dengan buku terbanyak](https://github.com/ainunannisak/ML-RecommendationSystem/assets/70701995/1835df6b-7366-4603-9aa2-89629c8ca848)
@@ -79,7 +86,7 @@ Secara umum sebelum memasuki tahapan membuat model sistem rekomendasi, dilakukan
 - Mengumpulkan User-ID yang telah memberikan rating buku minimal sebanyak 200 buku
 - Mengumpulkan Book-Title yang telah menerima rating minimal sebanyak 50 rating
 
-Keduanya dilakukan agar kita memiliki pembaca berpengalaman serta daftar buku dengan jumlah peringkat yang cukup untuk setiap buku.
+Keduanya dilakukan agar dataframe memiliki pembaca berpengalaman serta daftar buku dengan jumlah peringkat yang cukup untuk setiap buku.
 
 ## Modeling and Result
 ### Content Based 
@@ -146,7 +153,7 @@ Model Collaborative Filtering dievaluasi menggunakan metrik Root Mean Square Err
 
 Gambar 4. Metrik RMSE Training dan Validation
 
-Berdasarka Gambar 4. diatas dapat dilihat bahwa model mencapai 100 epochs. Melihat plot metrik model menunjukkan nilai MSE yang relatif kecil. Proses ini menghasilkan nilai kesalahan akhir sebesar 0.3232, dengan data validasi menunjukkan kesalahan sebesar 0.3388. Angka-angka ini menunjukkan hasil yang baik untuk sistem rekomendasi yang dibangun. Semakin rendah nilai RMSE, semakin baik kemampuan model dalam memprediksi preferensi pengguna, sehingga meningkatkan akurasi hasil rekomendasi.
+Berdasarkan Gambar 4. diatas dapat dilihat bahwa model mencapai 100 epochs. Melihat plot metrik model menunjukkan nilai MSE yang relatif kecil. Proses ini menghasilkan nilai kesalahan akhir sebesar 0.3232, dengan data validasi menunjukkan kesalahan sebesar 0.3388. Angka-angka ini menunjukkan hasil yang baik untuk sistem rekomendasi yang dibangun. Semakin rendah nilai RMSE, semakin baik kemampuan model dalam memprediksi preferensi pengguna, sehingga meningkatkan akurasi hasil rekomendasi.
 
 
 ## References
